@@ -13,12 +13,29 @@ import com.amanga.invoices.domain.exception.SupplierNotFoundException;
 import com.amanga.invoices.domain.exception.UnauthorizedCompanyAccessException;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.common.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    // 400 — Validation errors (@Valid)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrorResponse handleValidation(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+        return new ApiErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "VALIDATION_ERROR",
+                message);
+    }
 
     // 404 — Not Found
     @ExceptionHandler({

@@ -1,11 +1,13 @@
 package com.amanga.invoices.infrastructure.adapter.in.web.mapper;
 
 import com.amanga.invoices.domain.model.Invoice;
+import com.amanga.invoices.domain.model.InvoiceFile;
 import com.amanga.invoices.domain.model.InvoiceLineItem;
 import com.amanga.invoices.domain.model.InvoiceSource;
 import com.amanga.invoices.domain.model.InvoiceStatusHistory;
 import com.amanga.invoices.domain.model.InvoiceValidation;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.invoice.CreateInvoiceRequest;
+import com.amanga.invoices.infrastructure.adapter.in.web.dto.invoice.InvoiceFileResponse;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.invoice.InvoiceLineItemRequest;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.invoice.InvoiceResponse;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.invoice.InvoiceSourceRequest;
@@ -118,5 +120,20 @@ public class InvoiceWebMapper {
                 .taxRate(request.getTaxRate())
                 .lineTotal(request.getLineTotal())
                 .build();
+    }
+
+    public InvoiceFileResponse toFileResponse(InvoiceFile invoiceFile) {
+        return new InvoiceFileResponse(
+                invoiceFile.getId(),
+                invoiceFile.getInvoiceId(),
+                invoiceFile.getUploadedByUserId(),
+                invoiceFile.getFileType(),
+                invoiceFile.getStorageProvider(),
+                invoiceFile.getStorageBucket(),
+                invoiceFile.getFilePath(),
+                invoiceFile.getFileSizeBytes(),
+                invoiceFile.getChecksum(),
+                invoiceFile.getUploadedAt()
+        );
     }
 }

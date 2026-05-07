@@ -13,21 +13,24 @@ import java.util.stream.Collectors;
 public class InvoiceLineItemPersistenceAdapter implements InvoiceLineItemRepositoryPort {
 
     private final SpringDataInvoiceLineItemRepository repository;
+    private final InvoiceLineItemPersistenceMapper mapper;
 
-    public InvoiceLineItemPersistenceAdapter(SpringDataInvoiceLineItemRepository repository) {
+    public InvoiceLineItemPersistenceAdapter(SpringDataInvoiceLineItemRepository repository,
+                                             InvoiceLineItemPersistenceMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public List<InvoiceLineItem> saveAll(List<InvoiceLineItem> lineItems) {
         return lineItems.stream()
-                .map(InvoiceLineItemPersistenceMapper::toEntity)
+                .map(mapper::toEntity)
                 .collect(Collectors.collectingAndThen(
                         Collectors.toList(),
                         repository::saveAll
                 ))
                 .stream()
-                .map(InvoiceLineItemPersistenceMapper::toDomain)
+                .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
 
@@ -35,7 +38,7 @@ public class InvoiceLineItemPersistenceAdapter implements InvoiceLineItemReposit
     public List<InvoiceLineItem> findAllByInvoiceId(Long invoiceId) {
         return repository.findAllByInvoiceId(invoiceId)
                 .stream()
-                .map(InvoiceLineItemPersistenceMapper::toDomain)
+                .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
 }

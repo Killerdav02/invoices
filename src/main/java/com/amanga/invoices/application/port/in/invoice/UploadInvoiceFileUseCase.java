@@ -8,7 +8,6 @@ public interface UploadInvoiceFileUseCase {
     InvoiceFile uploadInvoiceFile(
             Long invoiceId,
             Long companyId,
-            Long currentUserId,
             byte[] content,
             String fileName,
             String contentType,

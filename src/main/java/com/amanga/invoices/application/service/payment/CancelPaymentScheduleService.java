@@ -36,7 +36,7 @@ public class CancelPaymentScheduleService implements CancelPaymentScheduleUseCas
     }
 
     @Override
-    public void cancelPaymentSchedule(Long paymentScheduleId, Long companyId, Long currentUserId) {
+    public void cancelPaymentSchedule(Long paymentScheduleId, Long companyId) {
         // 1. Get current authenticated user
         CurrentUser currentUser = currentUserProvider.getCurrentUser();
 

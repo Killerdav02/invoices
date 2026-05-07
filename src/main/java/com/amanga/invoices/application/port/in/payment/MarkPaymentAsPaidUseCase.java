@@ -4,5 +4,5 @@ import com.amanga.invoices.domain.model.PaymentSchedule;
 
 public interface MarkPaymentAsPaidUseCase {
 
-    PaymentSchedule markPaymentAsPaid(Long paymentScheduleId, Long companyId, Long currentUserId);
+    PaymentSchedule markPaymentAsPaid(Long paymentScheduleId, Long companyId);
 }

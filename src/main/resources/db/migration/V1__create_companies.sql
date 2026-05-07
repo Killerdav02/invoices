@@ -1,0 +1,10 @@
+CREATE TABLE companies (
+    id            BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name          VARCHAR(255) NOT NULL,
+    tax_id        VARCHAR(50),
+    country_code  CHAR(2) NOT NULL,
+    currency      CHAR(3) NOT NULL DEFAULT 'USD',
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at    TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB;

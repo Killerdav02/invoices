@@ -72,7 +72,7 @@ public class InvoicePersistenceMapper {
         entity.setTaxAmount(invoice.getTaxAmount());
         entity.setDiscountAmount(invoice.getDiscountAmount());
         entity.setTotalAmount(invoice.getTotalAmount());
-        entity.setCurrency(invoice.getCurrency() != null ? invoice.getCurrency() : "USD");
+        entity.setCurrency(invoice.getCurrency());
         entity.setCurrentStatus(invoice.getStatus());
         entity.setPaymentTerms(invoice.getPaymentTerms());
         entity.setNotes(invoice.getNotes());

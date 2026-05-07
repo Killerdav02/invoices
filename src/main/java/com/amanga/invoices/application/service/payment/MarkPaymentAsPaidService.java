@@ -36,7 +36,7 @@ public class MarkPaymentAsPaidService implements MarkPaymentAsPaidUseCase {
     }
 
     @Override
-    public PaymentSchedule markPaymentAsPaid(Long paymentScheduleId, Long companyId, Long currentUserId) {
+    public PaymentSchedule markPaymentAsPaid(Long paymentScheduleId, Long companyId) {
         // 1. Get current authenticated user
         CurrentUser currentUser = currentUserProvider.getCurrentUser();
 

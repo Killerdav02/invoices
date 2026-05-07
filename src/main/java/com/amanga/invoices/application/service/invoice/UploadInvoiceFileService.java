@@ -58,7 +58,6 @@ public class UploadInvoiceFileService implements UploadInvoiceFileUseCase {
     @Override
     public InvoiceFile uploadInvoiceFile(Long invoiceId,
                                          Long companyId,
-                                         Long currentUserId,
                                          byte[] content,
                                          String fileName,
                                          String contentType,

@@ -44,7 +44,6 @@ public class ValidateInvoiceService implements ValidateInvoiceUseCase {
     @Override
     public InvoiceValidation validateInvoice(Long invoiceId,
                                              Long companyId,
-                                             Long currentUserId,
                                              String validationRule,
                                              InvoiceValidationStatus status,
                                              String notes) {

@@ -4,8 +4,6 @@ import com.amanga.invoices.domain.model.InvoiceLineItem;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.InvoiceJpaEntity;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.InvoiceLineItemJpaEntity;
 import org.springframework.stereotype.Component;
-
-@Component
 @Component
 public class InvoiceLineItemPersistenceMapper {
 

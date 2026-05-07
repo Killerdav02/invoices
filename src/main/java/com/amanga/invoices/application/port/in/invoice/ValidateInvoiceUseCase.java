@@ -8,7 +8,6 @@ public interface ValidateInvoiceUseCase {
     InvoiceValidation validateInvoice(
             Long invoiceId,
             Long companyId,
-            Long currentUserId,
             String validationRule,
             InvoiceValidationStatus status,
             String notes);
