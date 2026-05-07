@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public class InvoiceSourceRequest {
+public class RegisterInvoiceSourceRequest {
 
     @NotNull(message = "Source type is required")
     private InvoiceSourceType sourceType;

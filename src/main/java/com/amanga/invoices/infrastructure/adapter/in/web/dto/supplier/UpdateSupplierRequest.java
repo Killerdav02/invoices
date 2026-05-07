@@ -6,15 +6,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class CreateSupplierRequest {
+public class UpdateSupplierRequest {
 
     @NotBlank(message = "Supplier name is required")
     @Size(max = 255, message = "Supplier name must not exceed 255 characters")
     private String name;
-
-    @NotBlank(message = "Tax ID is required")
-    @Size(max = 50, message = "Tax ID must not exceed 50 characters")
-    private String taxId;
 
     @Email(message = "Email must be a valid address")
     @Size(max = 255, message = "Email must not exceed 255 characters")
@@ -31,7 +27,6 @@ public class CreateSupplierRequest {
     private SupplierType type;
 
     public String getName() { return name; }
-    public String getTaxId() { return taxId; }
     public String getEmail() { return email; }
     public String getPhone() { return phone; }
     public String getCountryCode() { return countryCode; }

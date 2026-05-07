@@ -4,10 +4,12 @@ import com.amanga.invoices.domain.model.PaymentSchedule;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.CompanyUserJpaEntity;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.InvoiceJpaEntity;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.PaymentScheduleJpaEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PaymentSchedulePersistenceMapper {
 
-    public static PaymentSchedule toDomain(PaymentScheduleJpaEntity entity) {
+    public PaymentSchedule toDomain(PaymentScheduleJpaEntity entity) {
         return PaymentSchedule.builder()
                 .id(entity.getId())
                 .invoiceId(entity.getInvoice().getId())
@@ -24,7 +26,7 @@ public class PaymentSchedulePersistenceMapper {
                 .build();
     }
 
-    public static PaymentScheduleJpaEntity toEntity(PaymentSchedule domain) {
+    public PaymentScheduleJpaEntity toEntity(PaymentSchedule domain) {
         PaymentScheduleJpaEntity entity = new PaymentScheduleJpaEntity();
         entity.setId(domain.getId());
 

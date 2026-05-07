@@ -20,14 +20,13 @@ public class CompanyPersistenceMapper {
                 .build();
     }
 
-    public CompanyJpaEntity toEntity(Company company) {
+    public CompanyJpaEntity toEntity(Company domain) {
         CompanyJpaEntity entity = new CompanyJpaEntity();
-        entity.setId(company.getId());
-        entity.setName(company.getName());
-        entity.setTaxId(company.getTaxId());
-        entity.setCountryCode(company.getCountryCode());
-        entity.setCurrency(company.getCurrency() != null ? company.getCurrency() : "USD");
-        entity.setDeletedAt(company.getDeletedAt());
+        entity.setId(domain.getId());
+        entity.setName(domain.getName());
+        entity.setTaxId(domain.getTaxId());
+        entity.setCountryCode(domain.getCountryCode());
+        entity.setCurrency(domain.getCurrency());
         return entity;
     }
 }

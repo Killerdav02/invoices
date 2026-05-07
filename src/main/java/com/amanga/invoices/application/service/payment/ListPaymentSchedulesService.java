@@ -1,36 +1,36 @@
-package com.amanga.invoices.application.service.invoice;
+package com.amanga.invoices.application.service.payment;
 
-import com.amanga.invoices.application.port.in.invoice.GetInvoiceHistoryUseCase;
+import com.amanga.invoices.application.port.in.payment.ListPaymentSchedulesUseCase;
 import com.amanga.invoices.application.port.out.CurrentUserProviderPort;
 import com.amanga.invoices.application.port.out.InvoiceRepositoryPort;
-import com.amanga.invoices.application.port.out.InvoiceStatusHistoryRepositoryPort;
+import com.amanga.invoices.application.port.out.PaymentScheduleRepositoryPort;
 import com.amanga.invoices.application.security.CurrentUser;
 import com.amanga.invoices.domain.exception.ForbiddenActionException;
 import com.amanga.invoices.domain.exception.InvoiceNotFoundException;
 import com.amanga.invoices.domain.exception.UnauthorizedCompanyAccessException;
 import com.amanga.invoices.domain.model.Invoice;
-import com.amanga.invoices.domain.model.InvoiceStatusHistory;
+import com.amanga.invoices.domain.model.PaymentSchedule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GetInvoiceHistoryService implements GetInvoiceHistoryUseCase {
+public class ListPaymentSchedulesService implements ListPaymentSchedulesUseCase {
 
+    private final PaymentScheduleRepositoryPort paymentScheduleRepository;
     private final InvoiceRepositoryPort invoiceRepository;
-    private final InvoiceStatusHistoryRepositoryPort statusHistoryRepository;
     private final CurrentUserProviderPort currentUserProvider;
 
-    public GetInvoiceHistoryService(InvoiceRepositoryPort invoiceRepository,
-                                    InvoiceStatusHistoryRepositoryPort statusHistoryRepository,
-                                    CurrentUserProviderPort currentUserProvider) {
+    public ListPaymentSchedulesService(PaymentScheduleRepositoryPort paymentScheduleRepository,
+                                       InvoiceRepositoryPort invoiceRepository,
+                                       CurrentUserProviderPort currentUserProvider) {
+        this.paymentScheduleRepository = paymentScheduleRepository;
         this.invoiceRepository = invoiceRepository;
-        this.statusHistoryRepository = statusHistoryRepository;
         this.currentUserProvider = currentUserProvider;
     }
 
     @Override
-    public List<InvoiceStatusHistory> getInvoiceHistory(Long invoiceId, Long companyId) {
+    public List<PaymentSchedule> listByInvoice(Long invoiceId, Long companyId) {
         // 1. Get current authenticated user
         CurrentUser currentUser = currentUserProvider.getCurrentUser();
 
@@ -49,7 +49,7 @@ public class GetInvoiceHistoryService implements GetInvoiceHistoryUseCase {
                     "Invoice " + invoiceId + " does not belong to company " + companyId);
         }
 
-        // 5. Return full chronological history
-        return statusHistoryRepository.findAllByInvoiceId(invoiceId);
+        // 5. Return all payment schedules for the invoice
+        return paymentScheduleRepository.findAllByInvoiceId(invoiceId);
     }
 }

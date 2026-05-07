@@ -3,10 +3,13 @@ package com.amanga.invoices.infrastructure.adapter.out.persistence.mapper;
 import com.amanga.invoices.domain.model.InvoiceLineItem;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.InvoiceJpaEntity;
 import com.amanga.invoices.infrastructure.adapter.out.persistence.entity.InvoiceLineItemJpaEntity;
+import org.springframework.stereotype.Component;
 
+@Component
+@Component
 public class InvoiceLineItemPersistenceMapper {
 
-    public static InvoiceLineItem toDomain(InvoiceLineItemJpaEntity entity) {
+    public InvoiceLineItem toDomain(InvoiceLineItemJpaEntity entity) {
         return InvoiceLineItem.builder()
                 .id(entity.getId())
                 .invoiceId(entity.getInvoice().getId())
@@ -19,7 +22,7 @@ public class InvoiceLineItemPersistenceMapper {
                 .build();
     }
 
-    public static InvoiceLineItemJpaEntity toEntity(InvoiceLineItem domain) {
+    public InvoiceLineItemJpaEntity toEntity(InvoiceLineItem domain) {
         InvoiceLineItemJpaEntity entity = new InvoiceLineItemJpaEntity();
         entity.setId(domain.getId());
 
