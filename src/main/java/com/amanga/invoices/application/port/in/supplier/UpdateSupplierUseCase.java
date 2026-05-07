@@ -2,7 +2,7 @@ package com.amanga.invoices.application.port.in.supplier;
 
 import com.amanga.invoices.domain.model.Supplier;
 
-public interface GetSupplierUseCase {
+public interface UpdateSupplierUseCase {
 
-    Supplier getSupplier(Long supplierId, Long companyId);
+    Supplier updateSupplier(Supplier supplier);
 }

@@ -102,6 +102,7 @@ src/
 │   │   │   │       ├── InvoiceFileRepositoryPort.java
 │   │   │   │       ├── InvoiceRejectionRepositoryPort.java
 │   │   │   │       ├── InvoiceRepositoryPort.java
+│   │   │   │       ├── InvoiceSourceRepositoryPort.java
 │   │   │   │       ├── InvoiceStatusHistoryRepositoryPort.java
 │   │   │   │       ├── InvoiceValidationRepositoryPort.java
 │   │   │   │       ├── PaymentScheduleRepositoryPort.java
