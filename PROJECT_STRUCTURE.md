@@ -159,6 +159,7 @@ src/
 │   │           │       ├── InvoiceController.java
 │   │           │       ├── InvoiceFileController.java
 │   │           │       ├── InvoiceHistoryController.java
+│   │           │       ├── InvoiceValidationController.java
 │   │           │       ├── PaymentScheduleController.java
 │   │           │       ├── SupplierController.java
 │   │           │       │
@@ -173,12 +174,16 @@ src/
 │   │           │       │   │
 │   │           │       │   ├── invoice/
 │   │           │       │   │   ├── CreateInvoiceRequest.java
+│   │           │       │   │   ├── InvoiceFileResponse.java
 │   │           │       │   │   ├── InvoiceLineItemRequest.java
 │   │           │       │   │   ├── InvoiceResponse.java
 │   │           │       │   │   ├── InvoiceSourceRequest.java
 │   │           │       │   │   ├── InvoiceStatusHistoryResponse.java
 │   │           │       │   │   ├── InvoiceValidationResponse.java
-│   │           │       │   │   └── UploadInvoiceFileRequest.java
+│   │           │       │   │   ├── RegisterInvoiceSourceRequest.java
+│   │           │       │   │   ├── RejectInvoiceRequest.java
+│   │           │       │   │   ├── UploadInvoiceFileRequest.java
+│   │           │       │   │   └── ValidateInvoiceRequest.java
 │   │           │       │   │
 │   │           │       │   ├── payment/
 │   │           │       │   │   ├── PaymentScheduleResponse.java
