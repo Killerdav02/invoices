@@ -1,6 +1,7 @@
 package com.amanga.invoices.application.service.user;
 
 import com.amanga.invoices.application.port.in.user.RegisterCompanyUserUseCase;
+import com.amanga.invoices.application.port.out.Auth0ManagementPort;
 import com.amanga.invoices.application.port.out.CompanyUserRepositoryPort;
 import com.amanga.invoices.application.port.out.CurrentUserProviderPort;
 import com.amanga.invoices.application.security.CurrentUser;
@@ -14,15 +15,18 @@ public class RegisterCompanyUserService implements RegisterCompanyUserUseCase {
 
     private final CompanyUserRepositoryPort companyUserRepository;
     private final CurrentUserProviderPort currentUserProvider;
+    private final Auth0ManagementPort auth0Management;
 
     public RegisterCompanyUserService(CompanyUserRepositoryPort companyUserRepository,
-                                      CurrentUserProviderPort currentUserProvider) {
+                                      CurrentUserProviderPort currentUserProvider,
+                                      Auth0ManagementPort auth0Management) {
         this.companyUserRepository = companyUserRepository;
         this.currentUserProvider = currentUserProvider;
+        this.auth0Management = auth0Management;
     }
 
     @Override
-    public CompanyUser registerCompanyUser(CompanyUser companyUser) {
+    public CompanyUser registerCompanyUser(CompanyUser companyUser, String password) {
         // 1. Get current authenticated user
         CurrentUser currentUser = currentUserProvider.getCurrentUser();
 
@@ -43,7 +47,17 @@ public class RegisterCompanyUserService implements RegisterCompanyUserUseCase {
                     "A user with email " + companyUser.getEmail() + " already exists in this company");
         }
 
-        // 5. Save and return
-        return companyUserRepository.save(companyUser);
+        // 5. Create user in Auth0 — get back the auth0_user_id
+        String auth0UserId = auth0Management.createUser(
+                companyUser.getEmail(), password, companyUser.getName());
+
+        // 6. Save to DB — if it fails, delete the Auth0 user (compensating action)
+        companyUser.setAuth0UserId(auth0UserId);
+        try {
+            return companyUserRepository.save(companyUser);
+        } catch (Exception e) {
+            auth0Management.deleteUser(auth0UserId);
+            throw e;
+        }
     }
 }

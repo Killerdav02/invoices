@@ -12,7 +12,6 @@ public class CompanyUserWebMapper {
     public CompanyUser toDomain(RegisterCompanyUserRequest request, Long companyId) {
         return CompanyUser.builder()
                 .companyId(companyId)
-                .auth0UserId(request.getAuth0UserId())
                 .email(request.getEmail())
                 .name(request.getName())
                 .role(request.getRole())

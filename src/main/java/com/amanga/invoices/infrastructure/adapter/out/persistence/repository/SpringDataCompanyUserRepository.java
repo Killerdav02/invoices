@@ -21,4 +21,6 @@ public interface SpringDataCompanyUserRepository extends JpaRepository<CompanyUs
     List<CompanyUserJpaEntity> findAllByCompanyIdAndRoleAndDeletedAtIsNull(Long companyId, CompanyUserRole role);
 
     List<CompanyUserJpaEntity> findAllByCompanyIdAndStatusAndDeletedAtIsNull(Long companyId, CompanyUserStatus status);
+
+    boolean existsByEmailAndDeletedAtIsNull(String email);
 }

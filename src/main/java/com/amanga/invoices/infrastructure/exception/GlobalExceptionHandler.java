@@ -13,6 +13,7 @@ import com.amanga.invoices.domain.exception.SupplierNotFoundException;
 import com.amanga.invoices.domain.exception.UnauthorizedCompanyAccessException;
 import com.amanga.invoices.infrastructure.adapter.in.web.dto.common.ApiErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -91,12 +92,12 @@ public class GlobalExceptionHandler {
                         InvalidInvoiceStatusException.class,
                         InvalidPaymentScheduleStatusException.class
         })
-        @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-        public ApiErrorResponse handleInvalidStatus(RuntimeException ex) {
-                return new ApiErrorResponse(
-                                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                                "UNPROCESSABLE_ENTITY",
-                                ex.getMessage());
+        public ResponseEntity<ApiErrorResponse> handleInvalidStatus(RuntimeException ex) {
+                return ResponseEntity.status(422)
+                                .body(new ApiErrorResponse(
+                                                422,
+                                                "UNPROCESSABLE_ENTITY",
+                                                ex.getMessage()));
         }
 
         // 500 — Internal Server Error (safety net)

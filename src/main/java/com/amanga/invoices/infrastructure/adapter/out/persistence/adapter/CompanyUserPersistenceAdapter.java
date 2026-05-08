@@ -67,4 +67,9 @@ public class CompanyUserPersistenceAdapter implements CompanyUserRepositoryPort 
     public boolean existsByEmailAndCompanyId(String email, Long companyId) {
         return repository.findByCompanyIdAndEmail(companyId, email).isPresent();
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmailAndDeletedAtIsNull(email);
+    }
 }

@@ -27,4 +27,7 @@ public interface CompanyUserRepositoryPort {
 
     // Verificar si ya existe un usuario con ese email en la empresa
     boolean existsByEmailAndCompanyId(String email, Long companyId);
+
+    // Verificar si existe algún usuario con ese email (sin filtrar por empresa)
+    boolean existsByEmail(String email);
 }

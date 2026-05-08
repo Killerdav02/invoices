@@ -52,7 +52,8 @@ public class CompanyUserController {
 
         CompanyUserResponse response = companyUserWebMapper.toResponse(
                 registerCompanyUserUseCase.registerCompanyUser(
-                        companyUserWebMapper.toDomain(request, companyId)
+                        companyUserWebMapper.toDomain(request, companyId),
+                        request.getPassword()
                 )
         );
 
