@@ -38,17 +38,17 @@ public class Auth0ManagementAdapter implements Auth0ManagementPort {
         String token = getManagementToken();
 
         Map<?, ?> response = restClient.post()
-                .uri("/api/v2/users")
-                .header("Authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(Map.of(
-                        "email", email,
-                        "password", password,
-                        "name", name,
-                        "connection", "Username-Password-Authentication"
-                ))
-                .retrieve()
-                .body(Map.class);
+            .uri("/api/v2/users")
+            .header("Authorization", "Bearer " + token)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of(
+                "email", email,
+                "password", password,
+                "name", name,
+                "connection", "Username-Password-Authentication"
+            ))
+            .retrieve()
+            .body(Map.class);
 
         if (response == null || !response.containsKey("user_id")) {
             throw new IllegalStateException("Auth0 did not return a user_id for email: " + email);

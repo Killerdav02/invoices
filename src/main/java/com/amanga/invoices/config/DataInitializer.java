@@ -14,6 +14,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Component
 @ConditionalOnProperty(name = "app.bootstrap.enabled", havingValue = "true")
@@ -46,6 +48,9 @@ public class DataInitializer implements ApplicationRunner {
     @Value("${app.bootstrap.admin.name}")
     private String adminName;
 
+    @Value("${app.bootstrap.admin.auth0-user-id:}")
+    private String adminAuth0UserId;
+
     public DataInitializer(CompanyRepositoryPort companyRepository,
                            CompanyUserRepositoryPort companyUserRepository,
                            Auth0ManagementPort auth0Management) {
@@ -55,6 +60,7 @@ public class DataInitializer implements ApplicationRunner {
     }
 
     @Override
+    @Transactional
     public void run(ApplicationArguments args) {
         // Idempotente: si ya existe el admin, no hace nada
         if (companyUserRepository.existsByEmail(adminEmail)) {
@@ -63,6 +69,21 @@ public class DataInitializer implements ApplicationRunner {
         }
 
         log.info("[Bootstrap] No admin found — creating default company and admin user...");
+
+        String auth0UserId = adminAuth0UserId;
+        if (auth0UserId == null || auth0UserId.isBlank()) {
+            try {
+                auth0UserId = auth0Management.createUser(adminEmail, adminPassword, adminName);
+                log.info("[Bootstrap] Auth0 user created: {}", auth0UserId);
+            } catch (HttpClientErrorException.Conflict ex) {
+                log.error("[Bootstrap] Auth0 reports user already exists for email '{}'. " +
+                                "Set 'app.bootstrap.admin.auth0-user-id' with that user's id (sub) to complete bootstrap.",
+                        adminEmail);
+                return;
+            }
+        } else {
+            log.info("[Bootstrap] Using configured Auth0 user id for admin bootstrap: {}", auth0UserId);
+        }
 
         // 1. Crear empresa
         Company company = Company.builder()
@@ -74,11 +95,7 @@ public class DataInitializer implements ApplicationRunner {
         Company savedCompany = companyRepository.save(company);
         log.info("[Bootstrap] Company created with id={}", savedCompany.getId());
 
-        // 2. Crear usuario en Auth0
-        String auth0UserId = auth0Management.createUser(adminEmail, adminPassword, adminName);
-        log.info("[Bootstrap] Auth0 user created: {}", auth0UserId);
-
-        // 3. Guardar admin en BD
+        // 2. Guardar admin en BD
         CompanyUser admin = CompanyUser.builder()
                 .companyId(savedCompany.getId())
                 .auth0UserId(auth0UserId)
