@@ -8,6 +8,11 @@ public interface Auth0ManagementPort {
     String createUser(String email, String password, String name);
 
     /**
+     * Creates an invited user in Auth0 and triggers the onboarding email flow.
+     */
+    String inviteUser(String email, String name);
+
+    /**
      * Deletes a user from Auth0 by their auth0_user_id.
      * Used as a compensating action if DB save fails after Auth0 creation.
      */
